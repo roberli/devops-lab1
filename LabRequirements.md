@@ -29,3 +29,62 @@ The files necessary to start this environment are:
     - playbook-rancherserver.yml
     - Vagrantfile
     - docker-compose.yml
+
+## Commands
+Here we'll execute the commands to leave the environment Up and able to receive the properly interactions. Let's see:
+
+### The step to execute to start the environment to study DevOps
+    
+    - Added one entry in the file /etc/hosts, with the IP Address choosed by you, per example:
+    192.168.0.121   gitlab-ce
+    
+    - Access the directory of Vagrantfile
+    cd /somepath/docker-compose/gitlab
+
+    - Start the VM of Rancher Server 
+    sudo vagrant up node80
+
+    - Start the Node of Rancher Cluster
+    sudo vagrant up node81
+
+    - Start the registry server to execute pull and push of pipelines
+    sudo vagrant up node82
+
+    - Start the docker service to execute the docker-compose file
+    sudo systemctl start docker.service
+
+    - Access the directory of docker-compose
+    cd /somepath/docker-compose/gitlab
+
+    - Start the docker-compose environment necessary to run the pipelines
+    docker-compose up -d
+
+    - Access URL of Rancher Server
+    URL: https://192.168.56.80/
+    User: admin
+    Pass: strong_password
+
+    - Access URL GitLab
+    URL: http://gitlab-ce:8080
+    User: admin_user
+    Pass: strong_password
+
+With theses commands and configuration files, we're gonna running 3 virtual machines and 2 containers. The server labeled as node80 will run the rancher-server, the node81 will run the roles of etcd, control plane and worker of the cluster k8s, the node82 will run the private registry.
+
+After run the comand "docker-compose up -d" this will start 2 container the GiLab and the GitLab Runner. Similar output will be prompted:
+
+    └──╼ $sudo vagrant status
+    Current machine states:
+
+    node80                    running (virtualbox)
+    node81                    running (virtualbox)
+    node82                    running (virtualbox)
+
+    This environment represents multiple VMs. The VMs are all listed
+    above with their current state. For more information about a specific
+    VM, run `vagrant status NAME`.
+
+    └──╼ $docker container ls
+    CONTAINER ID   IMAGE                         COMMAND                  CREATED        STATUS                 PORTS                                                               NAMES
+    26dd17bafedb   gitlab/gitlab-runner:alpine   "/usr/bin/dumb-init …"   19 hours ago   Up 7 hours                                                                                 gitlab-runner
+    d7ff816c016b   gitlab/gitlab-ce:latest       "/assets/wrapper"        19 hours ago   Up 7 hours (healthy)   0.0.0.0:1111->22/tcp, 0.0.0.0:8080->80/tcp, 0.0.0.0:8443->443/tcp   gitlab-ce

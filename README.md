@@ -49,6 +49,7 @@ I.T. Infrastructure Enthusiast in general.
     - Hardware resources
     - Necessary Softwares
     - Files
+	- Commands
 
 ## Class 101 - DevOps
 	- DevOps practices and recomendation
