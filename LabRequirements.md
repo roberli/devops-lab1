@@ -71,7 +71,7 @@ Here we'll execute the commands to leave the environment Up and able to receive 
 
 With theses commands and configuration files, we're gonna running 3 virtual machines and 2 containers. The server labeled as node80 will run the rancher-server, the node81 will run the roles of etcd, control plane and worker of the cluster k8s, the node82 will run the private registry.
 
-After run the comand "docker-compose up -d" this will start 2 container the GiLab and the GitLab Runner. Similar output will be prompted:
+After run the comand "docker-compose up -d" this will start 2 container the GiLab and the GitLab Runner. Similar output will be prompted after execute the steps of vagrant and docker-compose:
 
     └──╼ $sudo vagrant status
     Current machine states:
