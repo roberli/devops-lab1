@@ -1,0 +1,26 @@
+---
+- hosts: node80
+  become: yes
+  tasks:
+  - name: Install a list of packages
+    apt:
+      pkg:
+      - apt-transport-https
+      - gnupg2
+      update_cache: yes
+
+  - name: Curl key GPG
+    shell: 'curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -'
+
+  - name: Adding k8s to repo apt
+    shell: echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+
+  - name: Installing kubectl
+    apt:
+      name: kubectl
+      update_cache: yes
+
+  - name: Creates directory
+    file:
+      path: ~/.kube
+      state: directory

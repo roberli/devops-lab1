@@ -1,0 +1,72 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/xenial64" # Official Ubuntu 16.04 LTS (Xenial Xerus)
+
+  config.vm.define "node80" do |node80|
+    node80.vm.network "private_network", ip: "192.168.56.80"
+
+    node80.vm.provider "virtualbox" do |vb|
+      vb.memory = 8192
+      vb.cpus = 2
+      vb.name = "rancher-server"
+    end
+
+    node80.vm.provision "shell",
+        inline: "apt-get update && \
+          curl https://releases.rancher.com/install-docker/19.03.sh | sh && \
+          hostnamectl set-hostname rancher-server && \
+          systemctl enable docker.service && usermod -aG docker vagrant"
+  
+    node80.vm.provision "shell",
+      inline: "apt-get update && apt-get install ansible -y"
+
+    node80.vm.provision "ansible" do |ansible|
+      ansible.playbook = "playbook-rancherserver.yml"
+    end
+  end
+
+  config.vm.define "node81" do |node81|
+    node81.vm.network "private_network", ip: "192.168.56.81"
+
+    node81.vm.provider "virtualbox" do |vb|
+      vb.memory = 8192
+      vb.cpus = 2
+      vb.name = "k8s-1"
+    end
+
+    node81.vm.provision "shell",
+        inline: "apt-get update && \
+          curl https://releases.rancher.com/install-docker/19.03.sh | sh && \
+          hostnamectl set-hostname k8s-1 && \
+          systemctl enable docker.service && usermod -aG docker vagrant"
+  
+    node81.vm.provision "shell",
+      inline: "apt-get update && apt-get install ansible -y"
+
+    node81.vm.provision "ansible" do |ansible|
+      ansible.playbook = "playbook-rancherserver.yml"
+    end
+  end
+
+  config.vm.define "node82" do |node82|
+    node82.vm.network "private_network", ip: "192.168.56.82"
+
+    node82.vm.provider "virtualbox" do |vb|
+      vb.memory = 8192
+      vb.cpus = 2
+      vb.name = "registry"
+    end
+
+    node82.vm.provision "shell",
+        inline: "apt-get update && \
+          curl https://releases.rancher.com/install-docker/19.03.sh | sh && \
+          hostnamectl set-hostname registry && \
+          systemctl enable docker.service && usermod -aG docker vagrant"
+
+    node82.vm.provision "shell",
+      inline: "apt-get update && apt-get install ansible -y"
+
+    node82.vm.provision "ansible" do |ansible|
+      ansible.playbook = "playbook-rancherserver.yml"
+    end
+  end
+end
