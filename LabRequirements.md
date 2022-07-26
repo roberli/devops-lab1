@@ -15,6 +15,7 @@ And for last, but not least disk here is the trick for me. I'm using one SSD M2 
 
 ## Necessary Softwares
 I'm not gonna cover how to install the softwares that'll be installed bellow. But all of them are necessary to properly run the lab in some point:
+
     - git;
     - curl;
     - VirtualBox;
@@ -24,6 +25,7 @@ I'm not gonna cover how to install the softwares that'll be installed bellow. Bu
 
 ## Files
 The files necessary to start this environment are:
+
     - playbook-rancherserver.yml
     - Vagrantfile
     - docker-compose.yml
