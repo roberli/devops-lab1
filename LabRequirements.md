@@ -29,6 +29,7 @@ The files necessary to start this environment are:
     - playbook-rancherserver.yml
     - Vagrantfile
     - docker-compose.yml
+    - AddingNodetoK8S.py
 
 ## Commands
 Here we'll execute the commands to leave the environment Up and able to receive the properly interactions. Let's see:
